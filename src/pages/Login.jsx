@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../services/api';
+import './pages.css'
 
 function Login() {
   const [correo, setCorreo] = useState('');
@@ -21,31 +22,47 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="correo">Correo:</label>
-          <input
-            type="email"
-            id="correo"
-            value={correo}
-            onChange={(e) => setCorreo(e.target.value)}
-            required
-          />
+    <div class="login-container">
+      <div class="login-form">
+        <div class="login-form-header">
+          <h1 class="login-form-title">Iniciar Sesión</h1>
+          <p class="login-form-subtitle">Ingrese sus datos</p>
         </div>
-        <div>
-          <label htmlFor="password">Contraseña:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Iniciar Sesión</button>
-      </form>
+        <form onSubmit={handleSubmit} class="login-form-form">
+          <div class="login-form-group">
+            <div class="login-form-field">
+              <label htmlFor="correo" class="login-form-label">Correo</label>
+              <input
+                type="email"
+                id="correo"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                required
+                placeholder="ejemplo@gmail.com"
+                class="login-form-input"
+              />
+            </div>
+            <div class="login-form-field">
+              <div class="login-form-password">
+                <label htmlFor="password" class="login-form-label">Contraseña</label>
+              </div>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                class="login-form-input"
+              />
+            </div>
+          </div>
+          <div class="login-form-actions">
+            <div>
+              <button type="submit" class="login-form-button">Iniciar Sesión</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
