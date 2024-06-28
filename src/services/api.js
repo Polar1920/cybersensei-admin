@@ -71,3 +71,32 @@ export const getPaginasByModuloId = async (moduloId) => {
         throw error.response?.data || { message: 'Error al obtener páginas' };
     }
 };
+
+export const createPagina = async (paginaData) => {
+    try {
+        const response = await api.post('/paginas', paginaData);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+export const getUltimoOrdenPaginaPorModuloId = async (moduloId) => {
+    try {
+        const response = await api.get(`/modulos/${moduloId}/paginas`);
+        const paginas = response.data;
+        
+        // Filtra las páginas que pertenecen al módulo especificado
+        const paginasDelModulo = paginas.filter(pagina => pagina.modulo_id === moduloId);
+
+        if (paginasDelModulo.length === 0) {
+            return 0; // Si no hay páginas para ese módulo, el orden será 0
+        } else {
+            // Encuentra el orden más alto entre las páginas del módulo
+            const ultimoOrden = paginasDelModulo.reduce((max, pagina) => (pagina.orden > max ? pagina.orden : max), 0);
+            return ultimoOrden + 1; // Devuelve el siguiente número de orden
+        }
+    } catch (error) {
+        throw error.response?.data || { message: 'Error al obtener el último orden de página por módulo' };
+    }
+};
