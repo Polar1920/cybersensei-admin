@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createPagina, getUltimoOrdenPaginaPorModuloId } from '../services/api';
-import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils, CompositeDecorator } from 'draft-js';
+import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
 import 'draft-js/dist/Draft.css'; // Importar estilos base de Draft.js
 
 function CrearPagina() {
@@ -91,56 +91,37 @@ function CrearPagina() {
         );
     };
 
-    // Componente de previsualización de imagen
-    const ImageComponent = ({ contentState, entity }) => {
-        const { src } = contentState.getEntity(entity).getData();
-        return <img src={src} alt="Imágen insertada" style={{ maxWidth: '100%' }} />;
+    // Función para definir el estilo de los bloques de entidad
+    const blockRendererFn = (contentBlock) => {
+        const type = contentBlock.getType();
+        if (type === 'atomic') {
+            return {
+                component: Media,
+                editable: false,
+            };
+        }
+        return null;
     };
 
-    // Componente de previsualización de video
-    const VideoComponent = ({ contentState, entity }) => {
-        const { src } = contentState.getEntity(entity).getData();
-        return (
-            <video controls style={{ maxWidth: '100%' }}>
-                <source src={src} type="video/mp4" />
-                Tu navegador no soporta el video.
-            </video>
-        );
-    };
+    // Componente Media para renderizar imágenes y videos
+    const Media = (props) => {
+        const entity = props.contentState.getEntity(props.block.getEntityAt(0));
+        const { src } = entity.getData();
+        const type = entity.getType();
 
-    // Decorator para renderizar entidades personalizadas (imagen y video)
-    const decorator = new CompositeDecorator([
-        {
-            strategy: (contentBlock, callback) => {
-                contentBlock.findEntityRanges(
-                    (character) => {
-                        const entityKey = character.getEntity();
-                        return (
-                            entityKey !== null &&
-                            contentState.getEntity(entityKey).getType() === 'IMAGE'
-                        );
-                    },
-                    callback
-                );
-            },
-            component: (props) => <ImageComponent {...props} contentState={editorState.getCurrentContent()} />,
-        },
-        {
-            strategy: (contentBlock, callback) => {
-                contentBlock.findEntityRanges(
-                    (character) => {
-                        const entityKey = character.getEntity();
-                        return (
-                            entityKey !== null &&
-                            contentState.getEntity(entityKey).getType() === 'VIDEO'
-                        );
-                    },
-                    callback
-                );
-            },
-            component: (props) => <VideoComponent {...props} contentState={editorState.getCurrentContent()} />,
-        },
-    ]);
+        let media;
+        if (type === 'IMAGE') {
+            media = <img src={src} alt="Insertada" style={{ maxWidth: '100%' }} />;
+        } else if (type === 'VIDEO') {
+            media = (
+                <video controls style={{ maxWidth: '100%' }}>
+                    <source src={src} type="video/mp4" />
+                    Tu navegador no soporta el video.
+                </video>
+            );
+        }
+        return media;
+    };
 
     // Barra de herramientas con estilos, tipos de bloque, imágenes y videos
     const Toolbar = () => (
@@ -209,8 +190,7 @@ function CrearPagina() {
                                 onChange={handleEditorChange}
                                 handleKeyCommand={handleKeyCommand}
                                 placeholder="Escribe aquí el contenido..."
-                                customDecorators={decorator} // Aplicar el decorador con los componentes de imagen y video
-                                contentState={editorState.getCurrentContent()} // Asegurando que contentState esté disponible
+                                blockRendererFn={blockRendererFn} // Renderizador de bloques para medios
                             />
                         </div>
                     </div>
