@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createModulo } from '../services/api';
+import './pages.css'
 
 function CrearModulo() {
     const [nombre, setNombre] = useState('');
@@ -36,37 +37,40 @@ function CrearModulo() {
     };
 
     return (
-        <div>
-            <h2>Crear Nuevo Módulo</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="nombre">Nombre:</label>
+        <div className='module-form'>
+            <h2 className='module-form__title'>Crear Nuevo Módulo</h2>
+            <form className='module-form__form' onSubmit={handleSubmit}>
+                <div className='module-form__group'>
+                    <label className='module-form__label' htmlFor="nombre">Nombre:</label>
                     <input
                         type="text"
                         id="nombre"
+                        className='module-form__input'
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="descripcion">Descripción:</label>
+                <div className='module-form__group'>
+                    <label className='module-form__label' htmlFor="descripcion">Descripción:</label>
                     <textarea
                         id="descripcion"
+                        className='module-form__textarea'
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="imagen">Imagen:</label>
+                <div className='module-form__group'>
+                    <label className='module-form__label' htmlFor="imagen">Imagen:</label>
                     <input
                         type="file"
                         id="imagen"
+                        className='module-form__input-file'
                         onChange={(e) => setImagen(e.target.files[0])}
                         accept="image/*"
                     />
                 </div>
-                <button type="submit">Crear Módulo</button>
+                <button className='module-form__submit' type="submit">Crear Módulo</button>
             </form>
         </div>
     );

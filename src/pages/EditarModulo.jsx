@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { updateModulo, getModuloById, getPaginasByModuloId } from '../services/api';
+import './pages.css'
 
 function EditarModulo() {
     const { moduloId } = useParams();
@@ -58,53 +59,56 @@ function EditarModulo() {
     };
 
     return (
-        <div>
-            <h2>Editar Módulo</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="nombre">Nombre:</label>
+        <div className='module-edit'>
+            <h2 className='module-edit__title'>Editar Módulo</h2>
+            <form className='module-edit__form' onSubmit={handleSubmit}>
+                <div className='module-edit__group'>
+                    <label className='module-edit__label' htmlFor="nombre">Nombre:</label>
                     <input
                         type="text"
                         id="nombre"
+                        className='module-edit__input'
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="descripcion">Descripción:</label>
+                <div className='module-edit__group'>
+                    <label className='module-edit__label' htmlFor="descripcion">Descripción:</label>
                     <textarea
                         id="descripcion"
+                        className='module-edit__textarea'
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="imagen">Imagen:</label>
+                <div className='module-edit__group'>
+                    <label className='module-edit__label' htmlFor="imagen">Imagen:</label>
                     <input
                         type="file"
                         id="imagen"
+                        className='module-edit__input-file'
                         onChange={(e) => setImagen(e.target.files[0])}
                         accept="image/*"
                     />
                 </div>
-                <button type="submit">Actualizar Módulo</button>
+                <button className='module-edit__submit' type="submit">Actualizar Módulo</button>
             </form>
 
             {/* Mostrar la imagen actual si existe */}
             {imagenUrl && (
-                <div>
-                    <h3>Imagen Actual</h3>
-                    <img src={imagenUrl} alt="Imagen Actual" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+                <div className='module-edit__current-image'>
+                    <h3 className='module-edit__current-image-title'>Imagen Actual</h3>
+                    <img className='module-edit__image' src={imagenUrl} alt="Imagen Actual" style={{ maxWidth: '100%', maxHeight: '200px' }} />
                 </div>
             )}
 
-            <h3>Páginas del Módulo</h3>
-            <button onClick={() => navigate(`/modulos/${moduloId}/paginas/crear`)}>Crear Nueva Página</button>
-            <ul>
+            <h3 className='module-edit__pages-title'>Páginas del Módulo</h3>
+            <button className='module-edit__create-page' onClick={() => navigate(`/modulos/${moduloId}/paginas/crear`)}>Crear Nueva Página</button>
+            <ul className='module-edit__pages-list'>
                 {paginas.map((pagina) => (
-                    <li key={pagina.id}>
-                        <Link to={`/modulos/${moduloId}/paginas/${pagina.id}/editar`}>{pagina.nombre}</Link>
+                    <li key={pagina.id} className='module-edit__page-item'>
+                        <Link to={`/modulos/${moduloId}/paginas/${pagina.id}/editar`} className='module-edit__page-link'>{pagina.nombre}</Link>
                     </li>
                 ))}
             </ul>

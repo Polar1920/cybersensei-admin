@@ -1,3 +1,5 @@
+/* LOGIN */
+
 .login-container {
     display: flex;
     justify-content: center;
@@ -131,4 +133,197 @@
 .login-form-signup-link:hover {
     text-decoration: underline;
     /* equivalent to hover:underline in Tailwind */
+}
+
+/* MODULO CREAR */
+
+.module-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.module-form__title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.module-form__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.module-form__group {
+    margin-bottom: 1.5rem;
+}
+
+.module-form__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.module-form__input,
+.module-form__textarea,
+.module-form__input-file {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.module-form__textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.module-form__submit {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.module-form__submit:hover {
+    background-color: #0056b3;
+}
+
+/* MODULO EDITAR */
+
+.module-edit {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin-bottom: 15px;
+}
+
+.module-edit__title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.module-edit__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.module-edit__group {
+    margin-bottom: 1.5rem;
+}
+
+.module-edit__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.module-edit__input,
+.module-edit__textarea,
+.module-edit__input-file {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.module-edit__textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.module-edit__submit {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.module-edit__submit:hover {
+    background-color: #0056b3;
+}
+
+.module-edit__current-image {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.module-edit__current-image-title {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.module-edit__image {
+    max-width: 100%;
+    max-height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.module-edit__pages-title {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.module-edit__create-page {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.module-edit__create-page:hover {
+    background-color: #218838;
+}
+
+.module-edit__pages-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.module-edit__page-item {
+    margin-bottom: 0.5rem;
+}
+
+.module-edit__page-link {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.module-edit__page-link:hover {
+    color: #0056b3;
 }
