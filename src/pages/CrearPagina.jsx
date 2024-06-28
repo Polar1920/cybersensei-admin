@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createPagina, getUltimoOrdenPaginaPorModuloId } from '../services/api';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Importar estilos base de Quill
+import 'react-quill/dist/quill.snow.css';
 
 function CrearPagina() {
     const { moduloId } = useParams();
@@ -11,6 +11,7 @@ function CrearPagina() {
     const [contenido, setContenido] = useState(''); // Estado del contenido Quill
     const [seleccionado, setSeleccionado] = useState(false); // Estado para controlar si se ha seleccionado un tipo de página
     const navigate = useNavigate(); // Hook para navegar a otras rutas
+    const quillRef = useRef(null); // Referencia al editor Quill
 
     useEffect(() => {
         const fetchUltimoOrdenPagina = async () => {
@@ -39,6 +40,38 @@ function CrearPagina() {
             console.error('Error al crear página:', error);
         }
     };
+
+    // Configuración de módulos de Quill
+    const modules = {
+        toolbar: {
+            container: [
+                [{ 'header': [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['link'], // Mantener solo 'link' para insertar imágenes por URL
+                ['video'], // Mantener 'video' para insertar videos
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                ['image'], // Agrega el módulo 'image' para insertar imágenes
+                ['clean'] // Limpia el formato
+            ],
+        },
+    };
+
+    // Función para insertar imágenes desde URL
+    const insertImage = () => {
+        const url = prompt('Ingresa la URL de la imagen:');
+        if (url) {
+            const quill = quillRef.current.getEditor();
+            const range = quill.getSelection();
+            quill.insertEmbed(range.index, 'image', url);
+        }
+    };
+
+    const formats = [
+        'header',
+        'bold', 'italic', 'underline',
+        'link', 'image', 'video',
+        'list', 'bullet'
+    ];
 
     // Renderizado condicional para mostrar el selector de tipo de página o el formulario de creación
     return (
@@ -75,11 +108,16 @@ function CrearPagina() {
                     <div>
                         <label>Contenido:</label>
                         <ReactQuill
+                            key={tipoPagina}
+                            ref={quillRef}
                             value={contenido}
                             onChange={setContenido}
+                            modules={modules}
+                            formats={formats}
                             placeholder="Escribe aquí el contenido..."
                         />
                     </div>
+                    <button type="button" onClick={insertImage}>Insertar Imagen</button>
                     <button type="submit">Crear Página</button>
                 </form>
             )}
