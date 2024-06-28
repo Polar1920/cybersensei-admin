@@ -85,9 +85,9 @@ export const getUltimoOrdenPaginaPorModuloId = async (moduloId) => {
     try {
         const response = await api.get(`/modulos/${moduloId}/paginas`);
         const paginas = response.data;
-        
+
         // Filtra las páginas que pertenecen al módulo especificado
-        const paginasDelModulo = paginas.filter(pagina => pagina.modulo_id === moduloId);
+        const paginasDelModulo = paginas.filter(pagina => pagina.modulo_id == moduloId);
 
         if (paginasDelModulo.length === 0) {
             return 0; // Si no hay páginas para ese módulo, el orden será 0

@@ -8,16 +8,23 @@ function CrearPagina() {
     const { moduloId } = useParams();
     const [tipoPagina, setTipoPagina] = useState('');
     const [ordenPagina, setOrdenPagina] = useState(0);
-    const [contenido, setContenido] = useState(''); // Estado del contenido Quill
-    const [seleccionado, setSeleccionado] = useState(false); // Estado para controlar si se ha seleccionado un tipo de página
-    const navigate = useNavigate(); // Hook para navegar a otras rutas
-    const quillRef = useRef(null); // Referencia al editor Quill
+    const [contenido, setContenido] = useState('');
+    const [pregunta, setPregunta] = useState('');
+    const [respuestas, setRespuestas] = useState([
+        { texto: 'Respuesta correcta por defecto', es_correcta: true },
+        { texto: 'Respuesta incorrecta por defecto', es_correcta: false }
+    ]);
+    const [seleccionado, setSeleccionado] = useState(false);
+    const navigate = useNavigate();
+    const quillRef = useRef(null);
 
     useEffect(() => {
         const fetchUltimoOrdenPagina = async () => {
             try {
                 const ultimoOrden = await getUltimoOrdenPaginaPorModuloId(moduloId);
-                setOrdenPagina(ultimoOrden + 1);
+                setOrdenPagina(ultimoOrden);
+                console.log(ultimoOrden);
+                console.log(ordenPagina);
             } catch (error) {
                 console.error('Error al obtener el último orden de página:', error);
             }
@@ -25,36 +32,6 @@ function CrearPagina() {
 
         fetchUltimoOrdenPagina();
     }, [moduloId]);
-
-    const handleTipoPaginaSelect = (tipo) => {
-        setTipoPagina(tipo);
-        setSeleccionado(true); // Marcar como seleccionado al elegir un tipo de página
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            await createPagina({ modulo_id: moduloId, orden: ordenPagina, contenido: contenido, tipo: tipoPagina });
-            navigate(`/modulos/${moduloId}`);
-        } catch (error) {
-            console.error('Error al crear página:', error);
-        }
-    };
-
-    // Configuración de módulos de Quill
-    const modules = {
-        toolbar: {
-            container: [
-                [{ 'header': [1, 2, false] }],
-                ['bold', 'italic', 'underline'],
-                ['link'], // Mantener solo 'link' para insertar imágenes por URL
-                ['video'], // Mantener 'video' para insertar videos
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['image'], // Agrega el módulo 'image' para insertar imágenes
-                ['clean'] // Limpia el formato
-            ],
-        },
-    };
 
     // Función para insertar imágenes desde URL
     const insertImage = () => {
@@ -66,6 +43,49 @@ function CrearPagina() {
         }
     };
 
+    // Función para agregar una nueva respuesta en el tipo 'quiz'
+    const agregarRespuesta = () => {
+        const nuevaRespuesta = { texto: '', es_correcta: false };
+        setRespuestas([...respuestas, nuevaRespuesta]);
+    };
+
+    const handleTipoPaginaSelect = (tipo) => {
+        setTipoPagina(tipo);
+        setSeleccionado(true);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            let contenidoAEnviar = contenido;
+            if (tipoPagina === 'quiz') {
+                let contenidoQuiz = `q:${pregunta}`;
+                respuestas.forEach((respuesta, index) => {
+                    contenidoQuiz += `|a:${respuesta.texto},${respuesta.es_correcta}`;
+                });
+                contenidoAEnviar = contenidoQuiz;
+            }
+            await createPagina({ modulo_id: moduloId, orden: ordenPagina, contenido: contenidoAEnviar, tipo: tipoPagina });
+            navigate(`/modulos/${moduloId}/editar`);
+        } catch (error) {
+            console.error('Error al crear página:', error);
+        }
+    };
+
+    const modules = {
+        toolbar: {
+            container: [
+                [{ 'header': [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['link'],
+                ['video'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                ['image'],
+                ['clean']
+            ],
+        },
+    };
+
     const formats = [
         'header',
         'bold', 'italic', 'underline',
@@ -73,7 +93,6 @@ function CrearPagina() {
         'list', 'bullet'
     ];
 
-    // Renderizado condicional para mostrar el selector de tipo de página o el formulario de creación
     return (
         <div>
             <h2>Crear Nueva Página</h2>
@@ -81,29 +100,18 @@ function CrearPagina() {
                 <div>
                     <h3>Selecciona el Tipo de Página:</h3>
                     <div className="tipo-pagina-selector">
-                        <div onClick={() => handleTipoPaginaSelect('inicio')} className="tipo-pagina-item">
-                            Inicio
-                        </div>
                         <div onClick={() => handleTipoPaginaSelect('informacion')} className="tipo-pagina-item">
                             Información
                         </div>
                         <div onClick={() => handleTipoPaginaSelect('quiz')} className="tipo-pagina-item">
                             Quiz
                         </div>
-                        <div onClick={() => handleTipoPaginaSelect('prueba')} className="tipo-pagina-item">
-                            Prueba
-                        </div>
                     </div>
                 </div>
-            ) : (
+            ) : tipoPagina === 'informacion' ? (
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>Orden de Página:</label>
-                        <input
-                            type="number"
-                            value={ordenPagina}
-                            readOnly
-                        />
+                        <label>Página #{ordenPagina}</label>
                     </div>
                     <div>
                         <label>Contenido:</label>
@@ -120,7 +128,54 @@ function CrearPagina() {
                     <button type="button" onClick={insertImage}>Insertar Imagen</button>
                     <button type="submit">Crear Página</button>
                 </form>
-            )}
+            ) : tipoPagina === 'quiz' ? (
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Página #{ordenPagina}</label>
+                    </div>
+                    <div>
+                        <label>Pregunta:</label>
+                        <input
+                            type="text"
+                            value={pregunta}
+                            onChange={(e) => setPregunta(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <h3>Respuestas</h3>
+                        {respuestas.map((respuesta, index) => (
+                            <div key={index}>
+                                <label>Respuesta {index + 1}:</label>
+                                <input
+                                    type="text"
+                                    value={respuesta.texto}
+                                    onChange={(e) => {
+                                        const newRespuestas = [...respuestas];
+                                        newRespuestas[index].texto = e.target.value;
+                                        setRespuestas(newRespuestas);
+                                    }}
+                                    required
+                                />
+                                <label>¿Es correcta?</label>
+                                <select
+                                    value={respuesta.es_correcta ? 'true' : 'false'}
+                                    onChange={(e) => {
+                                        const newRespuestas = [...respuestas];
+                                        newRespuestas[index].es_correcta = e.target.value === 'true';
+                                        setRespuestas(newRespuestas);
+                                    }}
+                                >
+                                    <option value="true">Sí</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        ))}
+                    </div>
+                    <button type="button" onClick={agregarRespuesta}>Agregar Respuesta</button>
+                    <button type="submit">Crear Pregunta</button>
+                </form>
+            ) : null}
         </div>
     );
 }
