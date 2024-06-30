@@ -22,16 +22,16 @@ function Login() {
   };
 
   return (
-    <div class="login-container">
-      <div class="login-form">
-        <div class="login-form-header">
-          <h1 class="login-form-title">Iniciar Sesión</h1>
-          <p class="login-form-subtitle">Ingrese sus datos</p>
+    <div className="login-container">
+      <div className="login-form">
+        <div className="login-form-header">
+          <h1 className="login-form-title">Iniciar Sesión</h1>
+          <p className="login-form-subtitle">Ingrese sus datos</p>
         </div>
-        <form onSubmit={handleSubmit} class="login-form-form">
-          <div class="login-form-group">
-            <div class="login-form-field">
-              <label htmlFor="correo" class="login-form-label">Correo</label>
+        <form onSubmit={handleSubmit} className="login-form-form">
+          <div className="login-form-group">
+            <div className="login-form-field">
+              <label htmlFor="correo" className="login-form-label">Correo</label>
               <input
                 type="email"
                 id="correo"
@@ -39,12 +39,12 @@ function Login() {
                 onChange={(e) => setCorreo(e.target.value)}
                 required
                 placeholder="ejemplo@gmail.com"
-                class="login-form-input"
+                className="login-form-input"
               />
             </div>
-            <div class="login-form-field">
-              <div class="login-form-password">
-                <label htmlFor="password" class="login-form-label">Contraseña</label>
+            <div className="login-form-field">
+              <div className="login-form-password">
+                <label htmlFor="password" className="login-form-label">Contraseña</label>
               </div>
               <input
                 type="password"
@@ -52,13 +52,13 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                class="login-form-input"
+                className="login-form-input"
               />
             </div>
           </div>
-          <div class="login-form-actions">
+          <div className="login-form-actions">
             <div>
-              <button type="submit" class="login-form-button">Iniciar Sesión</button>
+              <button type="submit" className="login-form-button">Iniciar Sesión</button>
             </div>
           </div>
         </form>

@@ -1,329 +1,479 @@
 /* LOGIN */
 
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    /* Ocupa toda la altura del viewport */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Ocupa toda la altura del viewport */
 }
 
 .login-form {
-    width: 100%;
-    max-width: 28rem;
-    /* equivalent to max-w-md in Tailwind */
-    padding: 1.5rem;
-    /* equivalent to p-6 in Tailwind */
-    border-radius: 0.375rem;
-    /* equivalent to rounded-md in Tailwind */
-    background-color: #f0f0f0;
-    color: #333;
-    /* or dark:text-gray-100 equivalent in Tailwind dark mode */
-    border: 1px solid #ccc;
+  width: 100%;
+  max-width: 28rem;
+  /* equivalent to max-w-md in Tailwind */
+  padding: 1.5rem;
+  /* equivalent to p-6 in Tailwind */
+  border-radius: 0.375rem;
+  /* equivalent to rounded-md in Tailwind */
+  background-color: #f0f0f0;
+  color: #333;
+  /* or dark:text-gray-100 equivalent in Tailwind dark mode */
+  border: 1px solid #ccc;
 }
 
 .login-form-header {
-    margin-bottom: 2rem;
-    /* equivalent to mb-8 in Tailwind */
-    text-align: center;
+  margin-bottom: 2rem;
+  /* equivalent to mb-8 in Tailwind */
+  text-align: center;
 }
 
 .login-form-title {
-    margin-top: 1.5rem;
-    /* equivalent to my-3 in Tailwind */
-    font-size: 2.25rem;
-    /* equivalent to text-4xl in Tailwind */
-    font-weight: bold;
-    /* equivalent to font-bold in Tailwind */
+  margin-top: 1.5rem;
+  /* equivalent to my-3 in Tailwind */
+  font-size: 2.25rem;
+  /* equivalent to text-4xl in Tailwind */
+  font-weight: bold;
+  /* equivalent to font-bold in Tailwind */
 }
 
 .login-form-subtitle {
-    font-size: 0.875rem;
-    /* equivalent to text-sm in Tailwind */
-    color: #666;
-    /* equivalent to dark:text-gray-400 in Tailwind dark mode */
+  font-size: 0.875rem;
+  /* equivalent to text-sm in Tailwind */
+  color: #666;
+  /* equivalent to dark:text-gray-400 in Tailwind dark mode */
 }
 
 .login-form-form {
-    margin-top: 1.5rem;
-    /* equivalent to space-y-12 in Tailwind */
+  margin-top: 1.5rem;
+  /* equivalent to space-y-12 in Tailwind */
 }
 
 .login-form-group {
-    margin-bottom: 3rem;
-    /* equivalent to space-y-4 in Tailwind */
+  margin-bottom: 3rem;
+  /* equivalent to space-y-4 in Tailwind */
 }
 
 .login-form-field {
-    margin-bottom: 1rem;
-    /* equivalent to mb-4 in Tailwind */
+  margin-bottom: 1rem;
+  /* equivalent to mb-4 in Tailwind */
 }
 
 .login-form-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    /* equivalent to mb-2 in Tailwind */
-    font-size: 0.875rem;
-    /* equivalent to text-sm in Tailwind */
+  display: block;
+  margin-bottom: 0.5rem;
+  /* equivalent to mb-2 in Tailwind */
+  font-size: 0.875rem;
+  /* equivalent to text-sm in Tailwind */
 }
 
 .login-form-input {
-    width: 90%;
-    padding: 0.75rem;
-    /* equivalent to px-3 py-2 in Tailwind */
-    font-size: 1rem;
-    /* equivalent to base font size in Tailwind */
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    /* equivalent to rounded-md in Tailwind */
-    background-color: #fff;
-    /* equivalent to dark:bg-gray-900 in Tailwind dark mode */
-    color: #333;
-    /* equivalent to dark:text-gray-100 in Tailwind dark mode */
+  width: 90%;
+  padding: 0.75rem;
+  /* equivalent to px-3 py-2 in Tailwind */
+  font-size: 1rem;
+  /* equivalent to base font size in Tailwind */
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  /* equivalent to rounded-md in Tailwind */
+  background-color: #fff;
+  /* equivalent to dark:bg-gray-900 in Tailwind dark mode */
+  color: #333;
+  /* equivalent to dark:text-gray-100 in Tailwind dark mode */
 }
 
 .login-form-password {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    /* equivalent to mb-2 in Tailwind */
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  /* equivalent to mb-2 in Tailwind */
 }
 
 .login-form-actions {
-    margin-top: 1rem;
-    /* equivalent to space-y-2 in Tailwind */
+  margin-top: 1rem;
+  /* equivalent to space-y-2 in Tailwind */
 }
 
 .login-form-button {
-    width: 100%;
-    padding: 1rem 2rem;
-    /* equivalent to px-8 py-3 in Tailwind */
-    font-size: 1rem;
-    /* equivalent to base font size in Tailwind */
-    font-weight: bold;
-    /* equivalent to font-semibold in Tailwind */
-    border: none;
-    border-radius: 0.25rem;
-    /* equivalent to rounded-md in Tailwind */
-    background-color: #007bff;
-    color: #fff;
-    /* equivalent to dark:text-gray-900 in Tailwind dark mode */
-    cursor: pointer;
+  width: 100%;
+  padding: 1rem 2rem;
+  /* equivalent to px-8 py-3 in Tailwind */
+  font-size: 1rem;
+  /* equivalent to base font size in Tailwind */
+  font-weight: bold;
+  /* equivalent to font-semibold in Tailwind */
+  border: none;
+  border-radius: 0.25rem;
+  /* equivalent to rounded-md in Tailwind */
+  background-color: #007bff;
+  color: #fff;
+  /* equivalent to dark:text-gray-900 in Tailwind dark mode */
+  cursor: pointer;
 }
 
 .login-form-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .login-form-signup {
-    padding: 0 1rem;
-    /* equivalent to px-6 in Tailwind */
-    font-size: 0.875rem;
-    /* equivalent to text-sm in Tailwind */
-    text-align: center;
-    color: #666;
-    /* equivalent to dark:text-gray-400 in Tailwind dark mode */
+  padding: 0 1rem;
+  /* equivalent to px-6 in Tailwind */
+  font-size: 0.875rem;
+  /* equivalent to text-sm in Tailwind */
+  text-align: center;
+  color: #666;
+  /* equivalent to dark:text-gray-400 in Tailwind dark mode */
 }
 
 .login-form-signup-link {
-    color: #007bff;
-    text-decoration: none;
+  color: #007bff;
+  text-decoration: none;
 }
 
 .login-form-signup-link:hover {
-    text-decoration: underline;
-    /* equivalent to hover:underline in Tailwind */
+  text-decoration: underline;
+  /* equivalent to hover:underline in Tailwind */
+}
+
+/* MODULOS */
+.modules-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.modules-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modules-create-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.modules-create-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.modules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modules-list-item {
+  margin-bottom: 10px;
+}
+
+.modules-list-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.modules-list-link:hover {
+  color: #0056b3;
 }
 
 /* MODULO CREAR */
 
 .module-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
 }
 
 .module-form__title {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    color: #333;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
 }
 
 .module-form__form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .module-form__group {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .module-form__label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    color: #333;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
 }
 
 .module-form__input,
 .module-form__textarea,
 .module-form__input-file {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
 .module-form__textarea {
-    height: 150px;
-    resize: vertical;
+  height: 150px;
+  resize: vertical;
 }
 
 .module-form__submit {
-    padding: 0.75rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .module-form__submit:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 /* MODULO EDITAR */
 
 .module-edit {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-    margin-bottom: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  margin-bottom: 15px;
 }
 
 .module-edit__title {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    color: #333;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
 }
 
 .module-edit__form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .module-edit__group {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .module-edit__label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    color: #333;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
 }
 
 .module-edit__input,
 .module-edit__textarea,
 .module-edit__input-file {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
 .module-edit__textarea {
-    height: 150px;
-    resize: vertical;
+  height: 150px;
+  resize: vertical;
 }
 
 .module-edit__submit {
-    padding: 0.75rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .module-edit__submit:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .module-edit__current-image {
-    margin-top: 1.5rem;
-    text-align: center;
+  margin-top: 1.5rem;
+  text-align: center;
 }
 
 .module-edit__current-image-title {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #333;
 }
 
 .module-edit__image {
-    max-width: 100%;
-    max-height: 200px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  max-width: 100%;
+  max-height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .module-edit__pages-title {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: #333;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .module-edit__create-page {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 1rem;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .module-edit__create-page:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 .module-edit__pages-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .module-edit__page-item {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .module-edit__page-link {
-    color: #007bff;
-    text-decoration: none;
-    transition: color 0.3s ease;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .module-edit__page-link:hover {
-    color: #0056b3;
+  color: #0056b3;
+}
+
+/* PAGINA CREAR */
+.create-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-page__title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.create-page__type-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.create-page__type-items {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.create-page__type-item {
+  padding: 10px 20px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.create-page__type-item:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.create-page__form {
+  margin-top: 20px;
+}
+
+.create-page__form-group {
+  margin-bottom: 20px;
+}
+
+.create-page__form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.create-page__form-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-page__editor {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-page__form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-page__button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.create-page__button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
 }

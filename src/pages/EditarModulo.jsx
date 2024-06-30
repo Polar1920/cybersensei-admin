@@ -108,7 +108,7 @@ function EditarModulo() {
             <ul className='module-edit__pages-list'>
                 {paginas.map((pagina) => (
                     <li key={pagina.id} className='module-edit__page-item'>
-                        <Link to={`/modulos/${moduloId}/paginas/${pagina.id}/editar`} className='module-edit__page-link'>{pagina.nombre}</Link>
+                        <Link to={`/modulos/${moduloId}/paginas/${pagina.id}/editar`} className='module-edit__page-link'>{pagina.contenido}</Link>
                     </li>
                 ))}
             </ul>
