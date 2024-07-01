@@ -100,3 +100,21 @@ export const getUltimoOrdenPaginaPorModuloId = async (moduloId) => {
         throw error.response?.data || { message: 'Error al obtener el último orden de página por módulo' };
     }
 };
+
+export const getPaginaById = async (id) => {
+    try {
+        const response = await api.get(`/paginas/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { message: 'Error al obtener módulo' };
+    }
+};
+
+export const updatePagina = async (id, paginaData) => {
+    try {
+        const response = await api.put(`/paginas/${id}`, paginaData);
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { message: 'Error al actualizar página' };
+    }
+};

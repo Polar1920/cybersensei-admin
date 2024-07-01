@@ -6,6 +6,7 @@ import "react-quill/dist/quill.snow.css";
 
 function CrearPagina() {
   const { moduloId } = useParams();
+  const [nombrePagina, setNombrePagina] = useState("");
   const [tipoPagina, setTipoPagina] = useState("");
   const [ordenPagina, setOrdenPagina] = useState(0);
   const [contenido, setContenido] = useState("");
@@ -22,9 +23,7 @@ function CrearPagina() {
     const fetchUltimoOrdenPagina = async () => {
       try {
         const ultimoOrden = await getUltimoOrdenPaginaPorModuloId(moduloId);
-        setOrdenPagina(ultimoOrden);
-        console.log(ultimoOrden);
-        console.log(ordenPagina);
+        setOrdenPagina(ultimoOrden + 1);
       } catch (error) {
         console.error("Error al obtener el último orden de página:", error);
       }
@@ -33,7 +32,6 @@ function CrearPagina() {
     fetchUltimoOrdenPagina();
   }, [moduloId]);
 
-  // Función para insertar imágenes desde URL
   const insertImage = () => {
     const url = prompt("Ingresa la URL de la imagen:");
     if (url) {
@@ -43,7 +41,6 @@ function CrearPagina() {
     }
   };
 
-  // Función para agregar una nueva respuesta en el tipo 'quiz'
   const agregarRespuesta = () => {
     const nuevaRespuesta = { texto: "", es_correcta: false };
     setRespuestas([...respuestas, nuevaRespuesta]);
@@ -66,9 +63,10 @@ function CrearPagina() {
         contenidoAEnviar = contenidoQuiz;
       }
       await createPagina({
+        nombre: nombrePagina,
         modulo_id: moduloId,
         orden: ordenPagina,
-        contenido: contenidoAEnviar,
+        contenido0: contenidoAEnviar,
         tipo: tipoPagina,
       });
       navigate(`/modulos/${moduloId}/editar`);
@@ -104,15 +102,13 @@ function CrearPagina() {
   ];
 
   return (
-    <div class="create-page">
-      <h2 class="create-page__title">Crear Nueva Página</h2>
-      <div class="create-page__content">
+    <div className="create-page">
+      <h2 className="create-page__title">Crear Nueva Página</h2>
+      <div className="create-page__content">
         {!seleccionado ? (
-          <div class="create-page__select-type">
-            <h3 class="create-page__type-title">
-              Selecciona el Tipo de Página:
-            </h3>
-            <div class="create-page__type-items">
+          <div className="create-page__select-type">
+            <h3 className="create-page__type-title">Selecciona el Tipo de Página:</h3>
+            <div className="create-page__type-items">
               <div
                 onClick={() => handleTipoPaginaSelect("informacion")}
                 className="create-page__type-item"
@@ -129,13 +125,21 @@ function CrearPagina() {
           </div>
         ) : tipoPagina === "informacion" ? (
           <form onSubmit={handleSubmit} className="create-page__form">
-            <div class="create-page__form-group">
-              <label class="create-page__form-label">
-                Página #{ordenPagina}
-              </label>
+            <div className="create-page__form-group">
+              <label className="create-page__form-label">Nombre de la Página:</label>
+              <input
+                type="text"
+                value={nombrePagina}
+                onChange={(e) => setNombrePagina(e.target.value)}
+                required
+                className="create-page__form-input"
+              />
             </div>
-            <div class="create-page__form-group">
-              <label class="create-page__form-label">Contenido:</label>
+            <div className="create-page__form-group">
+              <label className="create-page__form-label">Página #{ordenPagina}</label>
+            </div>
+            <div className="create-page__form-group">
+              <label className="create-page__form-label">Contenido:</label>
               <ReactQuill
                 key={tipoPagina}
                 ref={quillRef}
@@ -147,7 +151,7 @@ function CrearPagina() {
                 className="create-page__editor"
               />
             </div>
-            <div class="create-page__form-buttons">
+            <div className="create-page__form-buttons">
               <button
                 type="button"
                 onClick={insertImage}
@@ -162,13 +166,21 @@ function CrearPagina() {
           </form>
         ) : tipoPagina === "quiz" ? (
           <form onSubmit={handleSubmit} className="create-page__form">
-            <div class="create-page__form-group">
-              <label class="create-page__form-label">
-                Página #{ordenPagina}
-              </label>
+            <div className="create-page__form-group">
+              <label className="create-page__form-label">Nombre de la Página:</label>
+              <input
+                type="text"
+                value={nombrePagina}
+                onChange={(e) => setNombrePagina(e.target.value)}
+                required
+                className="create-page__form-input"
+              />
             </div>
-            <div class="create-page__form-group">
-              <label class="create-page__form-label">Pregunta:</label>
+            <div className="create-page__form-group">
+              <label className="create-page__form-label">Página #{ordenPagina}</label>
+            </div>
+            <div className="create-page__form-group">
+              <label className="create-page__form-label">Pregunta:</label>
               <input
                 type="text"
                 value={pregunta}
@@ -177,13 +189,11 @@ function CrearPagina() {
                 className="create-page__form-input"
               />
             </div>
-            <div class="create-page__form-group">
-              <h3 class="create-page__form-label">Respuestas</h3>
+            <div className="create-page__form-group">
+              <h3 className="create-page__form-label">Respuestas</h3>
               {respuestas.map((respuesta, index) => (
                 <div key={index} className="create-page__form-group">
-                  <label class="create-page__form-label">
-                    Respuesta {index + 1}:
-                  </label>
+                  <label className="create-page__form-label">Respuesta {index + 1}:</label>
                   <input
                     type="text"
                     value={respuesta.texto}
@@ -195,13 +205,12 @@ function CrearPagina() {
                     required
                     className="create-page__form-input"
                   />
-                  <label class="create-page__form-label">¿Es correcta?</label>
+                  <label className="create-page__form-label">¿Es correcta?</label>
                   <select
                     value={respuesta.es_correcta ? "true" : "false"}
                     onChange={(e) => {
                       const newRespuestas = [...respuestas];
-                      newRespuestas[index].es_correcta =
-                        e.target.value === "true";
+                      newRespuestas[index].es_correcta = e.target.value === "true";
                       setRespuestas(newRespuestas);
                     }}
                     className="create-page__form-input"
@@ -212,7 +221,7 @@ function CrearPagina() {
                 </div>
               ))}
             </div>
-            <div class="create-page__form-buttons">
+            <div className="create-page__form-buttons">
               <button
                 type="button"
                 onClick={agregarRespuesta}

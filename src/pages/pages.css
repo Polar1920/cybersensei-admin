@@ -366,19 +366,27 @@
 }
 
 .module-edit__pages-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .module-edit__page-item {
-  margin-bottom: 0.5rem;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: grab;
+  transition: background-color 0.3s ease;
+}
+
+.module-edit__page-item:hover {
+  background-color: #f1f1f1;
 }
 
 .module-edit__page-link {
-  color: #007bff;
   text-decoration: none;
-  transition: color 0.3s ease;
+  color: #333;
 }
 
 .module-edit__page-link:hover {
