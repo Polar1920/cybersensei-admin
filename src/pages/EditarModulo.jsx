@@ -80,7 +80,7 @@ function EditarModulo() {
                     body: formData,
                 });
                 const imgbbData = await imgbbResponse.json();
-
+ 
                 if (imgbbResponse.ok) {
                     await updateModulo(moduloId, { nombre, descripcion, imagen: imgbbData.data.url });
                     navigate('/modulos');
