@@ -13,8 +13,8 @@ function Login() {
     try {
       const response = await login({ correo, password });
       console.log('Respuesta de la API:', response); // Agrega esta línea para depurar
-      localStorage.setItem('token', response.token); // Almacena el token en localStorage
-      navigate('/modulos'); // Redirige a la página de módulos después de iniciar sesión
+      localStorage.setItem('correo', correo);
+      navigate('/verify'); // Redirige a la página de módulos después de iniciar sesión
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       // Manejo de errores (mostrar mensaje al usuario)

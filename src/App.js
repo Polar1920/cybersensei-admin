@@ -7,6 +7,7 @@ import Paginas from './pages/Paginas';
 import CrearPagina from './pages/CrearPagina';
 import EditarPagina from './pages/EditarPagina';
 import Login from './pages/Login';
+import Verify from './pages/Verify';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
@@ -31,7 +32,8 @@ function App() {
       </nav>
 
       <Routes>
-        <Route path="/login" element={<Login />} /> 
+        <Route path="/login" element={<Login />} />
+        <Route path="/verify" element={<Verify />} />
         <Route path="/modulos" element={isLoggedIn ? <Modulos /> : <Navigate to="/login" replace />} />
         <Route path="/modulos/crear" element={isLoggedIn ? <CrearModulo /> : <Navigate to="/login" replace />} />
         <Route path="/modulos/:moduloId/editar" element={isLoggedIn ? <EditarModulo /> : <Navigate to="/login" replace />} />

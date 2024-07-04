@@ -9,11 +9,19 @@ function EditarPagina() {
     const [nombrePagina, setNombrePagina] = useState("");
     const [tipoPagina, setTipoPagina] = useState("");
     const [ordenPagina, setOrdenPagina] = useState(0);
-    const [contenido, setContenido] = useState("");
-    const [pregunta, setPregunta] = useState("");
-    const [respuestas, setRespuestas] = useState([]);
+    const [contenidoN, setContenidoN] = useState("");
+    const [contenidoJA, setContenidoJA] = useState("");
+    const [contenidoAM, setContenidoAM] = useState("");
+    const [preguntaN, setPreguntaN] = useState("");
+    const [respuestasN, setRespuestasN] = useState([]);
+    const [preguntaJA, setPreguntaJA] = useState("");
+    const [respuestasJA, setRespuestasJA] = useState([]);
+    const [preguntaAM, setPreguntaAM] = useState("");
+    const [respuestasAM, setRespuestasAM] = useState([]);
     const navigate = useNavigate();
-    const quillRef = useRef(null);
+    const quillRefN = useRef(null);
+    const quillRefJA = useRef(null);
+    const quillRefAM = useRef(null);
 
     useEffect(() => {
         const fetchPagina = async () => {
@@ -23,15 +31,33 @@ function EditarPagina() {
                 setTipoPagina(pagina.tipo);
                 setOrdenPagina(pagina.orden);
                 if (pagina.tipo === "quiz") {
-                    const [pregunta, ...respuestas] = pagina.contenido0.split("|").map(item => {
+                    const [preguntaN, ...respuestasN] = pagina.contenido0.split("|").map(item => {
                         if (item.startsWith("q:")) return item.slice(2);
                         const [texto, es_correcta] = item.slice(2).split(",");
                         return { texto, es_correcta: es_correcta === "true" };
                     });
-                    setPregunta(pregunta);
-                    setRespuestas(respuestas);
+                    setPreguntaN(preguntaN);
+                    setRespuestasN(respuestasN);
+
+                    const [preguntaJA, ...respuestasJA] = pagina.contenido1.split("|").map(item => {
+                        if (item.startsWith("q:")) return item.slice(2);
+                        const [texto, es_correcta] = item.slice(2).split(",");
+                        return { texto, es_correcta: es_correcta === "true" };
+                    });
+                    setPreguntaJA(preguntaJA);
+                    setRespuestasJA(respuestasJA);
+
+                    const [preguntaAM, ...respuestasAM] = pagina.contenido2.split("|").map(item => {
+                        if (item.startsWith("q:")) return item.slice(2);
+                        const [texto, es_correcta] = item.slice(2).split(",");
+                        return { texto, es_correcta: es_correcta === "true" };
+                    });
+                    setPreguntaAM(preguntaAM);
+                    setRespuestasAM(respuestasAM);
                 } else {
-                    setContenido(pagina.contenido0);
+                    setContenidoN(pagina.contenido0);
+                    setContenidoJA(pagina.contenido1);
+                    setContenidoAM(pagina.contenido2);
                 }
             } catch (error) {
                 console.error("Error al obtener los datos de la página:", error);
@@ -41,41 +67,46 @@ function EditarPagina() {
         fetchPagina();
     }, [paginaId]);
 
-    const insertImage = () => {
-        const url = prompt("Ingresa la URL de la imagen:");
-        if (url) {
-            const quill = quillRef.current.getEditor();
-            const range = quill.getSelection();
-            quill.insertEmbed(range.index, "image", url);
-        }
-    };
-
-    const agregarRespuesta = () => {
+    const agregarRespuesta = (setRespuestas) => {
         const nuevaRespuesta = { texto: "", es_correcta: false };
-        setRespuestas([...respuestas, nuevaRespuesta]);
+        setRespuestas(prevRespuestas => [...prevRespuestas, nuevaRespuesta]);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            let contenidoAEnviar = contenido;
+            let contenido0Enviar = contenidoN;
+            let contenido1Enviar = contenidoJA;
+            let contenido2Enviar = contenidoAM;
+
             if (tipoPagina === "quiz") {
-                let contenidoQuiz = `q:${pregunta}`;
-                respuestas.forEach((respuesta) => {
-                    contenidoQuiz += `|a:${respuesta.texto},${respuesta.es_correcta}`;
-                });
-                contenidoAEnviar = contenidoQuiz;
+                contenido0Enviar = generarContenidoQuiz(preguntaN, respuestasN);
+                contenido1Enviar = generarContenidoQuiz(preguntaJA, respuestasJA);
+                contenido2Enviar = generarContenidoQuiz(preguntaAM, respuestasAM);
             }
+
             await updatePagina(paginaId, {
                 nombre: nombrePagina,
+                modulo_id: moduloId,
                 orden: ordenPagina,
-                contenido0: contenidoAEnviar,
+                contenido0: contenido0Enviar,
+                contenido1: contenido1Enviar,
+                contenido2: contenido2Enviar,
                 tipo: tipoPagina,
             });
+
             navigate(`/modulos/${moduloId}/editar`);
         } catch (error) {
             console.error("Error al actualizar la página:", error);
         }
+    };
+
+    const generarContenidoQuiz = (pregunta, respuestas) => {
+        let contenidoQuiz = `q:${pregunta}`;
+        respuestas.forEach((respuesta) => {
+            contenidoQuiz += `|a:${respuesta.texto},${respuesta.es_correcta}`;
+        });
+        return contenidoQuiz;
     };
 
     const modules = {
@@ -124,25 +155,42 @@ function EditarPagina() {
                             <label className="edit-page__form-label">Página #{ordenPagina}</label>
                         </div>
                         <div className="edit-page__form-group">
-                            <label className="edit-page__form-label">Contenido:</label>
+                            <label className="edit-page__form-label">Contenido para Niños:</label>
                             <ReactQuill
-                                ref={quillRef}
-                                value={contenido}
-                                onChange={setContenido}
+                                ref={quillRefN}
+                                value={contenidoN}
+                                onChange={setContenidoN}
                                 modules={modules}
                                 formats={formats}
-                                placeholder="Escribe aquí el contenido..."
+                                placeholder="Escribe aquí el contenido para niños..."
+                                className="edit-page__editor"
+                            />
+                        </div>
+                        <div className="edit-page__form-group">
+                            <label className="edit-page__form-label">Contenido para Jóvenes-Adultos:</label>
+                            <ReactQuill
+                                ref={quillRefJA}
+                                value={contenidoJA}
+                                onChange={setContenidoJA}
+                                modules={modules}
+                                formats={formats}
+                                placeholder="Escribe aquí el contenido para jóvenes-adultos..."
+                                className="edit-page__editor"
+                            />
+                        </div>
+                        <div className="edit-page__form-group">
+                            <label className="edit-page__form-label">Contenido para Adultos-Mayores:</label>
+                            <ReactQuill
+                                ref={quillRefAM}
+                                value={contenidoAM}
+                                onChange={setContenidoAM}
+                                modules={modules}
+                                formats={formats}
+                                placeholder="Escribe aquí el contenido para adultos mayores..."
                                 className="edit-page__editor"
                             />
                         </div>
                         <div className="edit-page__form-buttons">
-                            <button
-                                type="button"
-                                onClick={insertImage}
-                                className="edit-page__button"
-                            >
-                                Insertar Imagen
-                            </button>
                             <button type="submit" className="edit-page__button">
                                 Actualizar Página
                             </button>
@@ -164,57 +212,143 @@ function EditarPagina() {
                             <label className="edit-page__form-label">Página #{ordenPagina}</label>
                         </div>
                         <div className="edit-page__form-group">
-                            <label className="edit-page__form-label">Pregunta:</label>
+                            <label className="edit-page__form-label">Pregunta para Niños:</label>
                             <input
                                 type="text"
-                                value={pregunta}
-                                onChange={(e) => setPregunta(e.target.value)}
+                                value={preguntaN}
+                                onChange={(e) => setPreguntaN(e.target.value)}
                                 required
                                 className="edit-page__form-input"
                             />
-                        </div>
-                        <div className="edit-page__form-group">
-                            <h3 className="edit-page__form-label">Respuestas</h3>
-                            {respuestas.map((respuesta, index) => (
+                            <label className="edit-page__form-label">Respuestas:</label>
+                            {respuestasN.map((respuesta, index) => (
                                 <div key={index} className="edit-page__form-group">
-                                    <label className="edit-page__form-label">Respuesta {index + 1}:</label>
                                     <input
                                         type="text"
                                         value={respuesta.texto}
                                         onChange={(e) => {
-                                            const newRespuestas = [...respuestas];
-                                            newRespuestas[index].texto = e.target.value;
-                                            setRespuestas(newRespuestas);
+                                            const nuevasRespuestas = [...respuestasN];
+                                            nuevasRespuestas[index].texto = e.target.value;
+                                            setRespuestasN(nuevasRespuestas);
                                         }}
-                                        required
                                         className="edit-page__form-input"
                                     />
-                                    <label className="edit-page__form-label">¿Es correcta?</label>
-                                    <select
-                                        value={respuesta.es_correcta ? "true" : "false"}
-                                        onChange={(e) => {
-                                            const newRespuestas = [...respuestas];
-                                            newRespuestas[index].es_correcta = e.target.value === "true";
-                                            setRespuestas(newRespuestas);
-                                        }}
-                                        className="edit-page__form-input"
-                                    >
-                                        <option value="true">Sí</option>
-                                        <option value="false">No</option>
-                                    </select>
+                                    <label className="edit-page__form-checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            checked={respuesta.es_correcta}
+                                            onChange={(e) => {
+                                                const nuevasRespuestas = [...respuestasN];
+                                                nuevasRespuestas[index].es_correcta = e.target.checked;
+                                                setRespuestasN(nuevasRespuestas);
+                                            }}
+                                            className="edit-page__form-checkbox"
+                                        />
+                                        Correcta
+                                    </label>
                                 </div>
                             ))}
-                        </div>
-                        <div className="edit-page__form-buttons">
                             <button
                                 type="button"
-                                onClick={agregarRespuesta}
+                                onClick={() => agregarRespuesta(setRespuestasN)}
                                 className="edit-page__button"
                             >
                                 Agregar Respuesta
                             </button>
+                        </div>
+                        <div className="edit-page__form-group">
+                            <label className="edit-page__form-label">Pregunta para Jóvenes-Adultos:</label>
+                            <input
+                                type="text"
+                                value={preguntaJA}
+                                onChange={(e) => setPreguntaJA(e.target.value)}
+                                required
+                                className="edit-page__form-input"
+                            />
+                            <label className="edit-page__form-label">Respuestas:</label>
+                            {respuestasJA.map((respuesta, index) => (
+                                <div key={index} className="edit-page__form-group">
+                                    <input
+                                        type="text"
+                                        value={respuesta.texto}
+                                        onChange={(e) => {
+                                            const nuevasRespuestas = [...respuestasJA];
+                                            nuevasRespuestas[index].texto = e.target.value;
+                                            setRespuestasJA(nuevasRespuestas);
+                                        }}
+                                        className="edit-page__form-input"
+                                    />
+                                    <label className="edit-page__form-checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            checked={respuesta.es_correcta}
+                                            onChange={(e) => {
+                                                const nuevasRespuestas = [...respuestasJA];
+                                                nuevasRespuestas[index].es_correcta = e.target.checked;
+                                                setRespuestasJA(nuevasRespuestas);
+                                            }}
+                                            className="edit-page__form-checkbox"
+                                        />
+                                        Correcta
+                                    </label>
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={() => agregarRespuesta(setRespuestasJA)}
+                                className="edit-page__button"
+                            >
+                                Agregar Respuesta
+                            </button>
+                        </div>
+                        <div className="edit-page__form-group">
+                            <label className="edit-page__form-label">Pregunta para Adultos-Mayores:</label>
+                            <input
+                                type="text"
+                                value={preguntaAM}
+                                onChange={(e) => setPreguntaAM(e.target.value)}
+                                required
+                                className="edit-page__form-input"
+                            />
+                            <label className="edit-page__form-label">Respuestas:</label>
+                            {respuestasAM.map((respuesta, index) => (
+                                <div key={index} className="edit-page__form-group">
+                                    <input
+                                        type="text"
+                                        value={respuesta.texto}
+                                        onChange={(e) => {
+                                            const nuevasRespuestas = [...respuestasAM];
+                                            nuevasRespuestas[index].texto = e.target.value;
+                                            setRespuestasAM(nuevasRespuestas);
+                                        }}
+                                        className="edit-page__form-input"
+                                    />
+                                    <label className="edit-page__form-checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            checked={respuesta.es_correcta}
+                                            onChange={(e) => {
+                                                const nuevasRespuestas = [...respuestasAM];
+                                                nuevasRespuestas[index].es_correcta = e.target.checked;
+                                                setRespuestasAM(nuevasRespuestas);
+                                            }}
+                                            className="edit-page__form-checkbox"
+                                        />
+                                        Correcta
+                                    </label>
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={() => agregarRespuesta(setRespuestasAM)}
+                                className="edit-page__button"
+                            >
+                                Agregar Respuesta
+                            </button>
+                        </div>
+                        <div className="edit-page__form-buttons">
                             <button type="submit" className="edit-page__button">
-                                Actualizar Pregunta
+                                Actualizar Página
                             </button>
                         </div>
                     </form>
