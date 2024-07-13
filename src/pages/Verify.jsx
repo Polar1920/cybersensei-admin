@@ -28,7 +28,7 @@ function Verify() {
             console.log(token_2FA);
             const correo = localStorage.getItem('correo');
             console.log(correo);
-            const response = await axios.post('http://localhost:3000/verify-2fa', { correo, token_2FA });
+            const response = await axios.post('http://23.27.177.187:3000/verify-2fa', { correo, token_2FA });
             console.log('Response:', response); // Log response after sending
             if (response.status === 200) {
                 const { token } = response.data;

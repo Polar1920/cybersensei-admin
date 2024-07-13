@@ -40,7 +40,6 @@ function App() {
         <Route path="/modulos/:moduloId/paginas" element={isLoggedIn ? <Paginas /> : <Navigate to="/login" replace />} />
         <Route path="/modulos/:moduloId/paginas/crear" element={isLoggedIn ? <CrearPagina /> : <Navigate to="/login" replace />} />
         <Route path="/modulos/:moduloId/paginas/:paginaId/editar" element={isLoggedIn ? <EditarPagina /> : <Navigate to="/login" replace />} />
-        {/* ... otras rutas */}
       </Routes>
     </div>
   );
